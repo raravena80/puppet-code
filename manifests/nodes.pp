@@ -102,7 +102,7 @@ node 'linjenkins5.eng.snaplogic.com' inherits linjenkins {
 node 'linjenkins6.eng.snaplogic.com' inherits linjenkins {
 }
 
-# Build machines
+# Build Platform machines
 node 'buildmaster.eng.snaplogic.com' inherits linuxbase {
 }
 node 'build-centos5-32.ec2.internal' inherits linuxbase {
@@ -116,5 +116,17 @@ node 'build-ubuntu-10-10-32.ec2.internal' inherits linuxbase {
 node 'build-ubuntu-10-10-64.ec2.internal' inherits linuxbase {
 }
 node 'build-win.ec2.internal' inherits linuxbase {
+}
+
+# Build Agent provision machines
+node 'build-agent-centos5-32-prov.ec2.internal' inherits linuxbase {
+}
+node 'build-agent-centos5-64-prov.ec2.internal' inherits linuxbase {
+}
+node 'build-agent-ubuntu-11-04-64-prov.compute-1.internal' inherits linuxbase {
+}
+node 'build-agent-ubuntu-11-04-32-prov.ec2.internal' inherits linuxbase {
+}
+node 'build-win-agent-prov.ec2.internal' inherits linuxbase {
 }
 
