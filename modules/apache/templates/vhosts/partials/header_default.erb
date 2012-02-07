@@ -1,0 +1,20 @@
+  Include include.d/defaults.inc
+<% if vhost_part == :ssl -%>
+  Include include.d/ssl_defaults.inc
+<% end -%>
+  ServerName <%= servername %>
+<% unless serveralias.to_s.empty? || (serveralias.to_s == 'absent') -%>
+  ServerAlias <%= serveralias %>
+<% end -%>
+<% unless server_admin.to_s.empty? || (server_admin.to_s == 'absent') -%>
+  ServerAdmin <%= server_admin %>
+<% end -%>
+<% unless documentroot.to_s == 'really_absent' -%>
+  DocumentRoot <%= documentroot %>/
+<% end -%>
+<% if default_charset.to_s != 'absent' then -%>
+  AddDefaultCharset <%= default_charset %>
+<% end -%>
+<% if has_variable?('passing_extension') && !passing_extension.to_s.empty? -%>
+  DirectoryIndex index.htm index.html index.<%= passing_extension %>
+<% end -%>
