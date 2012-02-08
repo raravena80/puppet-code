@@ -3,7 +3,10 @@
 class nagios::target {
 
     @@nagios_host { "${fqdn}":
-        address => $ipaddress,
+        address => $ec2_public_ipv4 ? {
+            "" => $ipaddress,
+            default => $ec2_public_ipv4
+        },
         alias => $hostname,
         use => 'generic-host',
     }
