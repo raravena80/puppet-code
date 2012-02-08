@@ -17,6 +17,7 @@ node ubuntu inherits linuxbase {
 }
 
 node centos inherits linuxbase {
+   include iptables
 }
 
 # Basic linjenkins definition
@@ -25,6 +26,9 @@ node linjenkins inherits linuxbase {
 
 # Puppet Master machine
 node 'puppet.eng.snaplogic.com' {
+   include motd
+   include sudo
+   include iptables
    include puppet::master
 }
 
