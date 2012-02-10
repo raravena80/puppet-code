@@ -38,6 +38,8 @@
 -A RH-Firewall-1-INPUT -s 50.57.226.252 -j ACCEPT -m comment --comment "qaauto6.eng.snaplogic.com"
 -A RH-Firewall-1-INPUT -s 50.57.220.251 -j ACCEPT -m comment --comment "qaauto7.eng.snaplogic.com"
 -A RH-Firewall-1-INPUT -s 50.57.220.20 -j ACCEPT -m comment --comment "qaauto8.eng.snaplogic.com"
+-A RH-Firewall-1-INPUT -s 50.57.105.22 -j ACCEPT -m comment --comment "ltcontroller.snaplogic.com"
+-A RH-Firewall-1-INPUT -s 209.114.38.148 -j ACCEPT -m comment --comment "livedev.eng.snaplogic.com"
 -A RH-Firewall-1-INPUT -i lo -j ACCEPT
 -A RH-Firewall-1-INPUT -p icmp --icmp-type any -j ACCEPT
 -A RH-Firewall-1-INPUT -p udp --dport 5353 -d 224.0.0.251 -j ACCEPT

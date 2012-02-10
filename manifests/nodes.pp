@@ -134,3 +134,9 @@ node 'build-agent-ubuntu-11-04-32-prov.ec2.internal' inherits linuxbase {
 node 'build-win-agent-prov.ec2.internal' inherits linuxbase {
 }
 
+# Livetrial production
+node 'ltcontroller.snaplogic.com' inherits linuxbase {
+}
+# Livetrial development
+node 'livedev.eng.snaplogic.com' inherits linuxbase {
+}
