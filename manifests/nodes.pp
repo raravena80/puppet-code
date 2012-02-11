@@ -26,6 +26,7 @@ node linjenkins inherits linuxbase {
 # Puppet Master machine
 node 'puppet.eng.snaplogic.com' {
    include puppet::master
+   include ssh::auth::keymaster
 }
 
 # Management machines
