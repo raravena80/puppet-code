@@ -1,0 +1,10 @@
+# Ignore enviroments
+environments
+# Ignore puppet.conf
+puppet.conf
+# Ignore fileserver.conf
+fileserver.conf
+# Ignore autosign.conf
+autosign.conf
+# Ignore auth.conf
+auth.conf

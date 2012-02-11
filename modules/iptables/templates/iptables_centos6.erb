@@ -4,14 +4,52 @@
 :INPUT ACCEPT [0:0]
 :FORWARD ACCEPT [0:0]
 :OUTPUT ACCEPT [0:0]
--A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
--A INPUT -p icmp -j ACCEPT
--A INPUT -i lo -j ACCEPT
--A INPUT -m state --state NEW -m tcp -p tcp --dport <%= ssh_port %> -j ACCEPT
--A INPUT -m state --state NEW -m tcp -p tcp --dport 3000 -j ACCEPT
--A INPUT -m state --state NEW -m tcp -p tcp --dport 8140 -j ACCEPT
--A INPUT -m state --state NEW -m tcp -p tcp --dport 6163 -j ACCEPT
--A INPUT -j REJECT --reject-with icmp-host-prohibited
--A FORWARD -j REJECT --reject-with icmp-host-prohibited
+:RH-Firewall-1-INPUT - [0:0]
+-A INPUT -j RH-Firewall-1-INPUT
+-A FORWARD -j RH-Firewall-1-INPUT
+-A RH-Firewall-1-INPUT -p udp -m state --state NEW -m udp --dport 53 -j ACCEPT
+-A RH-Firewall-1-INPUT -p tcp -m state --state NEW -m tcp --dport 53 -j ACCEPT
+-A RH-Firewall-1-INPUT -p tcp -m state --state NEW -m tcp --dport 8140 -j ACCEPT -m comment --comment "Puppet Master port"
+-A RH-Firewall-1-INPUT -s 12.90.36.218 -j ACCEPT -m comment --comment "SnapLogic's Gateway"
+-A RH-Firewall-1-INPUT -s 50.56.216.101 -j ACCEPT -m comment --comment "jenkins.int.snaplogic.com"
+-A RH-Firewall-1-INPUT -s 10.8.8.0/24 -j ACCEPT -m comment --comment "SnapLogic's VPN Network"
+-A RH-Firewall-1-INPUT -s 174.129.212.180 -j ACCEPT -m comment --comment "buildmaster.eng.snaplogic.com"
+-A RH-Firewall-1-INPUT -s 209.114.36.218 -j ACCEPT -m comment --comment "linjenkins1"
+-A RH-Firewall-1-INPUT -s 174.143.143.183 -j ACCEPT -m comment --comment "linjenkins2"
+-A RH-Firewall-1-INPUT -s 173.203.237.224 -j ACCEPT -m comment --comment "linjenkins3"
+-A RH-Firewall-1-INPUT -s 174.143.142.218 -j ACCEPT -m comment --comment "linjenkins4"
+-A RH-Firewall-1-INPUT -s 174.143.143.168 -j ACCEPT -m comment --comment "linjenkins5"
+-A RH-Firewall-1-INPUT -s 50.56.233.39 -j ACCEPT -m comment --comment "linjenkins6"
+-A RH-Firewall-1-INPUT -s 184.106.229.119 -j ACCEPT -m comment --comment "adm1 External"
+-A RH-Firewall-1-INPUT -s 184.106.229.120 -j ACCEPT -m comment --comment "adm2 External"
+-A RH-Firewall-1-INPUT -s 10.179.122.33 -j ACCEPT -m comment --comment "adm1 Internal"
+-A RH-Firewall-1-INPUT -s 10.179.122.34 -j ACCEPT -m comment --comment "adm2 Internal"
+-A RH-Firewall-1-INPUT -s 50.57.105.22 -j ACCEPT -m comment --comment "ltcontrollers.snaplogic.com"
+-A RH-Firewall-1-INPUT -s 99.6.134.147 -j ACCEPT -m comment --comment "Ricardo's Home"
+-A RH-Firewall-1-INPUT -s 24.7.21.9 -j ACCEPT -m comment --comment "Martin's Home"
+-A RH-Firewall-1-INPUT -s 50.57.74.121 -j ACCEPT -m comment --comment "puppet.eng.snaplogic.com"
+-A RH-Firewall-1-INPUT -s 50.57.85.55 -j ACCEPT -m comment --comment "nagios.eng.snaplogic.com"
+-A RH-Firewall-1-INPUT -s 91.213.92.3 -j ACCEPT -m comment --comment "Lohika's Gateway"
+-A RH-Firewall-1-INPUT -s 50.57.154.17 -j ACCEPT -m comment --comment "qaauto1.eng.snaplogic.com"
+-A RH-Firewall-1-INPUT -s 50.57.153.77 -j ACCEPT -m comment --comment "qaauto2.eng.snaplogic.com"
+-A RH-Firewall-1-INPUT -s 50.57.229.120 -j ACCEPT -m comment --comment "qaauto3.eng.snaplogic.com"
+-A RH-Firewall-1-INPUT -s 50.57.229.165 -j ACCEPT -m comment --comment "qaauto4.eng.snaplogic.com"
+-A RH-Firewall-1-INPUT -s 50.57.220.27 -j ACCEPT -m comment --comment "qaauto5.eng.snaplogic.com"
+-A RH-Firewall-1-INPUT -s 50.57.226.252 -j ACCEPT -m comment --comment "qaauto6.eng.snaplogic.com"
+-A RH-Firewall-1-INPUT -s 50.57.220.251 -j ACCEPT -m comment --comment "qaauto7.eng.snaplogic.com"
+-A RH-Firewall-1-INPUT -s 50.57.220.20 -j ACCEPT -m comment --comment "qaauto8.eng.snaplogic.com"
+-A RH-Firewall-1-INPUT -i lo -j ACCEPT
+-A RH-Firewall-1-INPUT -p icmp --icmp-type any -j ACCEPT
+-A RH-Firewall-1-INPUT -p udp --dport 5353 -d 224.0.0.251 -j ACCEPT
+-A RH-Firewall-1-INPUT -p udp -m udp --dport 631 -j ACCEPT
+-A RH-Firewall-1-INPUT -p tcp -m tcp --dport 631 -j ACCEPT
+-A RH-Firewall-1-INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+-A RH-Firewall-1-INPUT -j DROP
+-A RH-Firewall-1-INPUT -p udp -m state --state NEW -m udp --dport 389 -j ACCEPT
+-A RH-Firewall-1-INPUT -p tcp -m state --state NEW -m tcp --dport 389 -j ACCEPT
+-A RH-Firewall-1-INPUT -p udp -m state --state NEW -m udp --dport 636 -j ACCEPT
+-A RH-Firewall-1-INPUT -p tcp -m state --state NEW -m tcp --dport 636 -j ACCEPT
+-A RH-Firewall-1-INPUT -m state --state NEW -m tcp -p tcp --dport <%= ssh_port %> -j ACCEPT
+-A RH-Firewall-1-INPUT -m state --state NEW -m tcp -p tcp --dport 5666 -j ACCEPT
+-A RH-Firewall-1-INPUT -j REJECT --reject-with icmp-host-prohibited
 COMMIT
-
