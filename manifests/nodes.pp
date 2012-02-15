@@ -29,8 +29,9 @@ node 'puppet.eng.snaplogic.com' {
    include motd
    include sudo
    include iptables
+   include openldap::clients
    include puppet::master
-   include ssh::auth::keymaster
+   #include ssh::auth::keymaster
 }
 
 # Management machines
