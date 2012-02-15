@@ -46,6 +46,7 @@
 -A RH-Firewall-1-INPUT -s 108.85.45.125 -j ACCEPT -m comment --comment "Dhiraj's Home"
 -A RH-Firewall-1-INPUT -s 24.7.60.83 -j ACCEPT -m comment --comment "Tim's Home"
 -A RH-Firewall-1-INPUT -s 69.42.5.8 -j ACCEPT -m comment --comment "Jim's Home"
+-A RH-Firewall-1-INPUT -s 24.5.183.161 -j ACCEPT -m comment --comment "Diane's Home"
 -A RH-Firewall-1-INPUT -i lo -j ACCEPT
 -A RH-Firewall-1-INPUT -p icmp --icmp-type any -j ACCEPT
 -A RH-Firewall-1-INPUT -p udp --dport 5353 -d 224.0.0.251 -j ACCEPT
