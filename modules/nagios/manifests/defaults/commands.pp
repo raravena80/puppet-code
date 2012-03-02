@@ -83,6 +83,8 @@ class nagios::defaults::commands {
             command_line => '$USER1$/check_jabber -H $ARG1$';
           check_git:
             command_line => '$USER1$/check_tcp -H $ARG1$ -p 9418';
+          check_nrpe:
+            command_line => '$USER1$/check_nrpe -H $HOSTADDRESS$ -c $ARG1$';
         }
       }
   }

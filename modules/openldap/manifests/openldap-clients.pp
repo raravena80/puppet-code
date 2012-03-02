@@ -21,7 +21,6 @@ class openldap::clients {
                  owner  =>  "root",
                  group  =>  "root",
                  source => "puppet:///modules/openldap/nslcd.conf",
-                 require => Package["nss-pam-ldapd"],
              }
 
              service { "nslcd":
@@ -29,11 +28,6 @@ class openldap::clients {
                  enable => true,
                  hasstatus => true,
                  hasrestart => true,
-                 require => File["/etc/nsswitch.conf"],
-             }
-
-             package { "authconfig":
-                  ensure => present,
              }
 
              # Make home dirs for new users
@@ -44,6 +38,9 @@ class openldap::clients {
            }
            # This should be CentOS 5.X
            default: {
+
+             $pamldappackage = "nss_ldap"
+             $ldaposfile = "/etc/ldap.conf"
 
              package { "nscd": 
                  ensure => present,
@@ -58,20 +55,21 @@ class openldap::clients {
                  require => [ Package["nscd"], File["/etc/nsswitch.conf"] ],
              }
 
-             $pamldappackage = "nss_ldap"
-             $ldaposfile = "/etc/ldap.conf"
            }
         }
      }
+
      default: {
         $ldaposfile = "/etc/ldap.conf" 
      }
    }
 
+   package { "authconfig":
+      ensure => present,
+   }
 
    package { "openldap-clients":
       ensure => present,
-      require => Package["authconfig"],
    }
 
    package { $pamldappackage:
@@ -80,22 +78,17 @@ class openldap::clients {
 
    file { "/etc/nsswitch.conf":
       mode    => "644",
-      ensure  => present,
       content => template("openldap/etc/nsswitch.conf.erb"),
    }
 
    file { $ldaposfile:
       mode    => "644",
-      ensure  => present,
       content => template("openldap/etc/ldap.conf.erb"),
-      require => Package["openldap-clients"],
    }
 
    file { $openldapfile:
       mode    => "644",
-      ensure  => present,
       content => template("openldap/etc/openldap/ldap.conf.erb"),
-      require => File[$ldaposfile],
    }
 
    file { $certfile:
@@ -103,7 +96,6 @@ class openldap::clients {
       owner   => "root",
       group   => "root",
       source  => "puppet:///modules/openldap/cacert.pem",
-      require => File[$openldapfile],
    }
 
    file { "/ahome":

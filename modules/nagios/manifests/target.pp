@@ -9,7 +9,11 @@ class nagios::target {
         },
         alias => $hostname,
         use => 'generic-host',
+        hostgroups => inline_template("<%= has_variable?('my_nagios_hostgroups') ? my_nagios_hostgroups : 'Others' %>"),
+
     }
+
+    notify { "Im here $my_nagios_hostgroups":}
 
     if ($nagios_parents != '') {
         Nagios_host["${fqdn}"] { parents => $nagios_parents }

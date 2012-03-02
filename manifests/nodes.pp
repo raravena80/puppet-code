@@ -3,10 +3,6 @@ node linuxbase {
    include motd
    include sudo
    include puppet
-   include nagios::target
-    nagios::service { 'check_ping':
-        check_command => 'check_ping!100.0,20%!500.0,60%',
-    }
 }
 
 node windowsbase {
@@ -14,10 +10,40 @@ node windowsbase {
 }
 
 node ubuntu inherits linuxbase {
+   $my_nagios_hostgroups = "debian-servers"
+   include nagios::target
+   nagios::service { 'check_ping':
+       check_command => 'check_ping!100.0,20%!500.0,60%',
+   }
 }
 
 node centos inherits linuxbase {
    include iptables
+   $my_nagios_hostgroups = "centos-servers"
+   include nagios::target
+   include nagios::nrpe
+   nagios::service { 'check_ping':
+       check_command => 'check_ping!100.0,20%!500.0,60%',
+   }
+}
+
+node awsubuntu inherits linuxbase {
+   $my_nagios_hostgroups = "debian-servers"
+   include nagios::target
+   nagios::service { 'check_ping':
+       check_command => 'check_ping!100.0,20%!500.0,60%',
+   }
+
+}
+
+node awscentos inherits linuxbase {
+   $my_nagios_hostgroups = "centos-servers"
+   include nagios::target
+   include nagios::nrpe
+   nagios::service { 'check_ping':
+       check_command => 'check_ping!100.0,20%!500.0,60%',
+   }
+
 }
 
 # Basic linjenkins definition
@@ -35,20 +61,27 @@ node 'puppet.eng.snaplogic.com' {
 }
 
 # Management machines
-node 'adm1.snaplogic.com' inherits linuxbase {
-   include nagios::nrpe
-   include iptables
+node 'adm1.snaplogic.com' inherits centos {
+   nagios::service { 'check_users':
+       check_command => 'check_nrpe!check_users',
+   }
 }
-node 'adm2.snaplogic.com' inherits linuxbase {
-   include nagios::nrpe
-   include iptables
+node 'adm2.snaplogic.com' inherits centos {
+   nagios::service { 'check_users':
+       check_command => 'check_nrpe!check_users',
+   }
 }
 
 # Monitoring
 node 'nagios.eng.snaplogic.com' inherits linuxbase {
+   include iptables
+   $my_nagios_hostgroups = "centos-servers"
    include nagios
    include nagios::defaults
    include nagios::target
+   nagios::service { 'check_ping':
+       check_command => 'check_ping!100.0,20%!500.0,60%',
+   }
 #   include nagios::apache
 #   include nagios::defaults
 	# Declare another nagios command
@@ -64,28 +97,26 @@ node 'nagios.eng.snaplogic.com' inherits linuxbase {
 }
 
 # Source code control machines
-node 'forge1.snaplogic.com' inherits linuxbase {
-   include iptables
+node 'forge1.snaplogic.com' inherits centos {
 }
-node 'forge2.snaplogic.com' inherits linuxbase {
-   include iptables
+node 'forge2.snaplogic.com' inherits centos {
 }
-node 'git.snaplogic.com' inherits linuxbase {
-   include iptables
+node 'git.snaplogic.com' inherits centos {
 }
 
 # QA Automation machines
-node 'qaauto1.eng.snaplogic.com' inherits linuxbase {
+node 'qaauto1.eng.snaplogic.com' inherits centos {
 }
-node 'qaauto2.eng.snaplogic.com' inherits linuxbase {
+node 'qaauto2.eng.snaplogic.com' inherits ubuntu {
+   include openldap::clients::debian
 }
 node 'qaauto3.eng.snaplogic.com' inherits windowsbase {
 }
 node 'qaauto4.eng.snaplogic.com' inherits windowsbase {
 }
-node 'qaauto5.eng.snaplogic.com' inherits linuxbase {
+node 'qaauto5.eng.snaplogic.com' inherits centos {
 }
-node 'qaauto6.eng.snaplogic.com' inherits linuxbase {
+node 'qaauto6.eng.snaplogic.com' inherits ubuntu {
 }
 node 'qaauto7.eng.snaplogic.com' inherits windowsbase {
 }
@@ -93,52 +124,57 @@ node 'qaauto8.eng.snaplogic.com' inherits windowsbase {
 }
 
 # Jenkins machines
-node 'jenkins.int.snaplogic.com' inherits linuxbase {
+node 'jenkins.int.snaplogic.com' inherits centos {
 }
-node 'linjenkins1.eng.snaplogic.com' inherits linjenkins {
+node 'linjenkins1.eng.snaplogic.com' inherits ubuntu {
 }
-node 'linjenkins2.eng.snaplogic.com' inherits linjenkins {
+node 'linjenkins2.eng.snaplogic.com' inherits ubuntu {
 }
-node 'linjenkins3.eng.snaplogic.com' inherits linjenkins {
+node 'linjenkins3.eng.snaplogic.com' inherits ubuntu {
 }
-node 'linjenkins4.eng.snaplogic.com' inherits linjenkins {
+node 'linjenkins4.eng.snaplogic.com' inherits ubuntu {
 }
-node 'linjenkins5.eng.snaplogic.com' inherits linjenkins {
+node 'linjenkins5.eng.snaplogic.com' inherits ubuntu {
 }
-node 'linjenkins6.eng.snaplogic.com' inherits linjenkins {
+node 'linjenkins6.eng.snaplogic.com' inherits ubuntu {
 }
 
 # Build Platform machines
-node 'buildmaster.eng.snaplogic.com' inherits linuxbase {
+node 'buildmaster.eng.snaplogic.com' inherits awscentos {
 }
-node 'build-centos5-32.ec2.internal' inherits linuxbase {
+node 'build-centos5-32.ec2.internal' inherits awscentos {
 }
-node 'build-centos5-64.ec2.internal' inherits linuxbase {
+node 'build-centos5-64.ec2.internal' inherits awscentos {
 }
-node 'build-macos1.compute-1.internal' inherits linuxbase {
+node 'build-macos1.compute-1.internal' inherits awscentos {
 }
-node 'build-ubuntu-10-10-32.ec2.internal' inherits linuxbase {
+node 'build-ubuntu-10-10-32.ec2.internal' inherits awsubuntu {
 }
-node 'build-ubuntu-10-10-64.ec2.internal' inherits linuxbase {
+node 'build-ubuntu-10-10-64.ec2.internal' inherits awsubuntu {
 }
-node 'build-win.ec2.internal' inherits linuxbase {
+node 'build-win.ec2.internal' inherits awscentos {
 }
 
 # Build Agent provision machines
-node 'build-agent-centos5-32-prov.ec2.internal' inherits linuxbase {
+node 'build-agent-centos5-32-prov.ec2.internal' inherits awscentos {
 }
-node 'build-agent-centos5-64-prov.ec2.internal' inherits linuxbase {
+node 'build-agent-centos5-64-prov.ec2.internal' inherits awscentos {
 }
-node 'build-agent-ubuntu-11-04-64-prov.compute-1.internal' inherits linuxbase {
+node 'build-agent-ubuntu-11-04-64-prov.compute-1.internal' inherits awsubuntu {
 }
-node 'build-agent-ubuntu-11-04-32-prov.ec2.internal' inherits linuxbase {
+node 'build-agent-ubuntu-11-04-32-prov.ec2.internal' inherits awsubuntu {
 }
-node 'build-win-agent-prov.ec2.internal' inherits linuxbase {
+node 'build-win-agent-prov.ec2.internal' inherits awscentos {
 }
 
 # Livetrial production
-node 'ltcontroller.snaplogic.com' inherits linuxbase {
+node 'ltcontroller.snaplogic.com' inherits centos {
 }
 # Livetrial development
-node 'livedev.eng.snaplogic.com' inherits linuxbase {
+node 'livedev.eng.snaplogic.com' inherits centos {
+}
+
+# HA proxy
+node 'haproxy.eng.snaplogic.com' inherits centos {
+   include haproxy
 }

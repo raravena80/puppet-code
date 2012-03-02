@@ -7,8 +7,8 @@
 :RH-Firewall-1-INPUT - [0:0]
 -A INPUT -j RH-Firewall-1-INPUT
 -A FORWARD -j RH-Firewall-1-INPUT
--A RH-Firewall-1-INPUT -p udp -m state --state NEW -m udp --dport 53 -j ACCEPT
 -A RH-Firewall-1-INPUT -p tcp -m state --state NEW -m tcp --dport 53 -j ACCEPT
+-A RH-Firewall-1-INPUT -p udp -m state --state NEW -m udp --dport 53 -j ACCEPT
 -A RH-Firewall-1-INPUT -p tcp -m state --state NEW -m tcp --dport 8140 -j ACCEPT -m comment --comment "Puppet Master port"
 -A RH-Firewall-1-INPUT -s 12.90.36.218 -j ACCEPT -m comment --comment "SnapLogic's Gateway"
 -A RH-Firewall-1-INPUT -s 50.56.216.101 -j ACCEPT -m comment --comment "jenkins.int.snaplogic.com"
@@ -42,7 +42,13 @@
 -A RH-Firewall-1-INPUT -s 209.114.38.148 -j ACCEPT -m comment --comment "livedev.eng.snaplogic.com"
 -A RH-Firewall-1-INPUT -s 174.143.142.103 -j ACCEPT -m comment --comment "forge1.snaplogic.com"
 -A RH-Firewall-1-INPUT -s 173.203.237.144 -j ACCEPT -m comment --comment "forge2.snaplogic.com"
--A RH-Firewall-1-INPUT -s 76.126.244.86 -j ACCEPT -m comment --comment "Shashi's home"
+-A RH-Firewall-1-INPUT -s 76.126.244.86 -j ACCEPT -m comment --comment "Shashi's Home"
+-A RH-Firewall-1-INPUT -s 108.85.45.125 -j ACCEPT -m comment --comment "Dhiraj's Home"
+-A RH-Firewall-1-INPUT -s 24.7.60.83 -j ACCEPT -m comment --comment "Tim's Home"
+-A RH-Firewall-1-INPUT -s 69.42.5.8 -j ACCEPT -m comment --comment "Jim's Home"
+-A RH-Firewall-1-INPUT -s 24.5.183.161 -j ACCEPT -m comment --comment "Diane's Home"
+-A RH-Firewall-1-INPUT -s 24.7.17.3 -j ACCEPT -m comment --comment "Drea's Home"
+-A RH-Firewall-1-INPUT -s 108.166.109.208 -j ACCEPT -m comment --comment "testy.eng.snaplogic.com"
 -A RH-Firewall-1-INPUT -i lo -j ACCEPT
 -A RH-Firewall-1-INPUT -p icmp --icmp-type any -j ACCEPT
 -A RH-Firewall-1-INPUT -p udp --dport 5353 -d 224.0.0.251 -j ACCEPT

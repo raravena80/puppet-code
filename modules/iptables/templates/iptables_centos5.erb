@@ -7,8 +7,8 @@
 :RH-Firewall-1-INPUT - [0:0]
 -A INPUT -j RH-Firewall-1-INPUT
 -A FORWARD -j RH-Firewall-1-INPUT
--A RH-Firewall-1-INPUT -p udp -m state --state NEW -m udp --dport 53 -j ACCEPT
 -A RH-Firewall-1-INPUT -p tcp -m state --state NEW -m tcp --dport 53 -j ACCEPT
+-A RH-Firewall-1-INPUT -p udp -m state --state NEW -m udp --dport 53 -j ACCEPT
 -A RH-Firewall-1-INPUT -p tcp -m state --state NEW -m tcp --dport 8140 -j ACCEPT -m comment --comment "Puppet Master port"
 -A RH-Firewall-1-INPUT -s 12.90.36.218 -j ACCEPT -m comment --comment "SnapLogic's Gateway"
 -A RH-Firewall-1-INPUT -s 50.56.216.101 -j ACCEPT -m comment --comment "jenkins.int.snaplogic.com"
@@ -28,7 +28,7 @@
 -A RH-Firewall-1-INPUT -s 99.6.132.0/22 -j ACCEPT -m comment --comment "Ricardo's Home"
 -A RH-Firewall-1-INPUT -s 24.7.21.9 -j ACCEPT -m comment --comment "Martin's Home"
 -A RH-Firewall-1-INPUT -s 50.57.74.121 -j ACCEPT -m comment --comment "puppet.eng.snaplogic.com"
--A RH-Firewall-1-INPUT -s 50.57.85.55 -j ACCEPT -m comment --comment "nagios.eng.snaplogic.com"
+-A RH-Firewall-1-INPUT -s 50.57.45.152 -j ACCEPT -m comment --comment "nagios.eng.snaplogic.com"
 -A RH-Firewall-1-INPUT -s 91.213.92.3 -j ACCEPT -m comment --comment "Lohika's Gateway"
 -A RH-Firewall-1-INPUT -s 50.57.154.17 -j ACCEPT -m comment --comment "qaauto1.eng.snaplogic.com"
 -A RH-Firewall-1-INPUT -s 50.57.153.77 -j ACCEPT -m comment --comment "qaauto2.eng.snaplogic.com"
@@ -47,6 +47,8 @@
 -A RH-Firewall-1-INPUT -s 24.7.60.83 -j ACCEPT -m comment --comment "Tim's Home"
 -A RH-Firewall-1-INPUT -s 69.42.5.8 -j ACCEPT -m comment --comment "Jim's Home"
 -A RH-Firewall-1-INPUT -s 24.5.183.161 -j ACCEPT -m comment --comment "Diane's Home"
+-A RH-Firewall-1-INPUT -s 24.7.17.3 -j ACCEPT -m comment --comment "Drea's Home"
+-A RH-Firewall-1-INPUT -s 108.166.109.208 -j ACCEPT -m comment --comment "testy.eng.snaplogic.com"
 -A RH-Firewall-1-INPUT -i lo -j ACCEPT
 -A RH-Firewall-1-INPUT -p icmp --icmp-type any -j ACCEPT
 -A RH-Firewall-1-INPUT -p udp --dport 5353 -d 224.0.0.251 -j ACCEPT

@@ -59,6 +59,11 @@ class nagios::nrpe {
   package {
     $nrpepackage: ensure => present;
     "nagios-plugins": ensure => present;
+    "nagios-plugins-users": ensure => present;
+    "nagios-plugins-load": ensure => present;
+    "nagios-plugins-disk": ensure => present;
+    "nagios-plugins-ntp": ensure => present;
+    "nagios-plugins-dns": ensure => present;
   }
 
   service { "$nrpeservice":
