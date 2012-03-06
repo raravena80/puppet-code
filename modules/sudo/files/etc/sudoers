@@ -92,6 +92,8 @@ jenkins		ALL=(ALL) 	NOPASSWD: ALL
 build		ALL=(ALL) 	NOPASSWD: ALL 
 buildagent		ALL=(ALL) 	NOPASSWD: ALL 
 ubuntu		ALL=(ALL) 	NOPASSWD: ALL 
+nrpe		ALL=(ALL) 	NOPASSWD: ALL 
+nagios		ALL=(ALL) 	NOPASSWD: ALL 
 
 ## Allows members of the 'sys' group to run networking, software, 
 ## service management apps and more.

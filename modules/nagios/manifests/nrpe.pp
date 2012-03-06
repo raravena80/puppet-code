@@ -27,6 +27,7 @@ class nagios::nrpe {
         }
       }
       $sudopath    = "/usr/bin"
+      $template    = "nagios/nrpe.rpm.cfg"
     }
     default: {
       $nrpeservice = "nagios-nrpe-server"
@@ -37,6 +38,7 @@ class nagios::nrpe {
       $nagiosgroup = "nagios"
       $pluginsdir  = "/usr/lib/nagios/plugins"
       $sudopath    = "/usr/bin"
+      $template    = "nagios/nrpe.deb.cfg"
     }
   }
 
@@ -56,14 +58,29 @@ class nagios::nrpe {
     require => Package[$nrpepackage],
   }
 
-  package {
-    $nrpepackage: ensure => present;
-    "nagios-plugins": ensure => present;
-    "nagios-plugins-users": ensure => present;
-    "nagios-plugins-load": ensure => present;
-    "nagios-plugins-disk": ensure => present;
-    "nagios-plugins-ntp": ensure => present;
-    "nagios-plugins-dns": ensure => present;
+
+  if  ( $operatingsystem == "Ubuntu" ) or ( $operatingsystem == "Debian" ) {
+    exec { 'apt-get update':
+      command => '/usr/bin/apt-get update'
+    }
+    package {
+      $nrpepackage: ensure => present, require => Exec["apt-get update"];
+      "nagios-plugins": ensure => present, require => Exec["apt-get update"];
+    }
+  }
+
+  if  ( $operatingsystem == "CentOS" ) or ( $operatingsystem == "Fedora" ) or ( $operatingsystem == "RedHat" ) {
+    package {
+      $nrpepackage: ensure => present;
+      "nagios-plugins": ensure => present;
+      "nagios-plugins-users": ensure => present;
+      "nagios-plugins-load":  ensure => present;
+      "nagios-plugins-disk":  ensure => present;
+      "nagios-plugins-ntp":   ensure => present;
+      "nagios-plugins-dns":   ensure => present;
+      "nagios-plugins-procs": ensure => present;
+      "nagios-plugins-dummy": ensure => present;
+    }
   }
 
   service { "$nrpeservice":

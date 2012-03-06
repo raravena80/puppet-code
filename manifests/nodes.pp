@@ -10,8 +10,11 @@ node windowsbase {
 }
 
 node ubuntu inherits linuxbase {
+   include ufw
+   ufw::rules { "ubuntu": }
    $my_nagios_hostgroups = "debian-servers"
    include nagios::target
+   include nagios::nrpe
    nagios::service { 'check_ping':
        check_command => 'check_ping!100.0,20%!500.0,60%',
    }
@@ -24,6 +27,15 @@ node centos inherits linuxbase {
    include nagios::nrpe
    nagios::service { 'check_ping':
        check_command => 'check_ping!100.0,20%!500.0,60%',
+   }
+   nagios::service { 'check_load':
+       check_command => 'check_nrpe!check_load',
+   }
+   nagios::service { 'check_zombie_procs':
+       check_command => 'check_nrpe!check_zombie_procs',
+   }
+   nagios::service { 'check_total_procs':
+       check_command => 'check_nrpe!check_total_procs',
    }
 }
 
