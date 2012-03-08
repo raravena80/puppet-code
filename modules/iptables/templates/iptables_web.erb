@@ -7,9 +7,8 @@
 :RH-Firewall-1-INPUT - [0:0]
 -A INPUT -j RH-Firewall-1-INPUT
 -A FORWARD -j RH-Firewall-1-INPUT
--A RH-Firewall-1-INPUT -p tcp -m state --state NEW -m tcp --dport 53 -j ACCEPT
--A RH-Firewall-1-INPUT -p udp -m state --state NEW -m udp --dport 53 -j ACCEPT
--A RH-Firewall-1-INPUT -p tcp -m state --state NEW -m tcp --dport 8140 -j ACCEPT -m comment --comment "Puppet Master port"
+-A RH-Firewall-1-INPUT -p tcp -m state --state NEW -m tcp --dport 80 -m limit --limit 25/minute --limit-burst 100 -j ACCEPT
+-A RH-Firewall-1-INPUT -p tcp -m state --state NEW -m tcp --dport 443 -m limit --limit 25/minute --limit-burst 100 -j ACCEPT
 -A RH-Firewall-1-INPUT -s 12.90.36.218 -j ACCEPT -m comment --comment "SnapLogic's Gateway"
 -A RH-Firewall-1-INPUT -s 50.56.216.101 -j ACCEPT -m comment --comment "jenkins.int.snaplogic.com"
 -A RH-Firewall-1-INPUT -s 10.8.8.0/24 -j ACCEPT -m comment --comment "SnapLogic's VPN Network"
@@ -56,11 +55,5 @@
 -A RH-Firewall-1-INPUT -p tcp -m tcp --dport 631 -j ACCEPT
 -A RH-Firewall-1-INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 -A RH-Firewall-1-INPUT -j DROP
--A RH-Firewall-1-INPUT -p udp -m state --state NEW -m udp --dport 389 -j ACCEPT
--A RH-Firewall-1-INPUT -p tcp -m state --state NEW -m tcp --dport 389 -j ACCEPT
--A RH-Firewall-1-INPUT -p udp -m state --state NEW -m udp --dport 636 -j ACCEPT
--A RH-Firewall-1-INPUT -p tcp -m state --state NEW -m tcp --dport 636 -j ACCEPT
--A RH-Firewall-1-INPUT -m state --state NEW -m tcp -p tcp --dport <%= ssh_port %> -j ACCEPT
--A RH-Firewall-1-INPUT -m state --state NEW -m tcp -p tcp --dport 5666 -j ACCEPT
 -A RH-Firewall-1-INPUT -j REJECT --reject-with icmp-host-prohibited
 COMMIT

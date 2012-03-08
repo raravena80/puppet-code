@@ -48,6 +48,7 @@
 -A RH-Firewall-1-INPUT -s 24.5.183.161 -j ACCEPT -m comment --comment "Diane's Home"
 -A RH-Firewall-1-INPUT -s 24.7.17.3 -j ACCEPT -m comment --comment "Drea's Home"
 -A RH-Firewall-1-INPUT -s 108.166.109.208 -j ACCEPT -m comment --comment "testy.eng.snaplogic.com"
+-A RH-Firewall-1-INPUT -s 88.211.43.162 -j ACCEPT -m comment --comment "UK Office"
 -A RH-Firewall-1-INPUT -i lo -j ACCEPT
 -A RH-Firewall-1-INPUT -p icmp --icmp-type any -j ACCEPT
 -A RH-Firewall-1-INPUT -p udp --dport 5353 -d 224.0.0.251 -j ACCEPT
