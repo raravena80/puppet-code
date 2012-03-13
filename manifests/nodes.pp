@@ -176,6 +176,10 @@ node 'build-agent-ubuntu-11-04-64-prov.compute-1.internal' inherits awsubuntu {
 }
 node 'build-agent-ubuntu-11-04-32-prov.ec2.internal' inherits awsubuntu {
 }
+node 'build-agent-ubuntu-10-10-64-prov.compute-1.internal' inherits awsubuntu {
+}
+node 'build-agent-ubuntu-10-10-32-prov.ec2.internal' inherits awsubuntu {
+}
 node 'build-win-agent-prov.ec2.internal' inherits awscentos {
 }
 
@@ -189,4 +193,12 @@ node 'livedev.eng.snaplogic.com' inherits centos {
 # HA proxy
 node 'haproxy.eng.snaplogic.com' inherits centos {
    include haproxy
+}
+
+# Hadoop nodes
+
+node 'hadoopmaster2.eng.snaplogic.com' inherits centos {
+}
+
+node 'slave1.eng.snaplogic.com' inherits centos {
 }
