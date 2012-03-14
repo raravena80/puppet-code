@@ -13,7 +13,7 @@ class nagios::target {
 
     }
 
-    notify { "Im here $my_nagios_hostgroups":}
+#    notify { "Im here $my_nagios_hostgroups":}
 
     if ($nagios_parents != '') {
         Nagios_host["${fqdn}"] { parents => $nagios_parents }
